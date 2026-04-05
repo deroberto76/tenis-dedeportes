@@ -271,6 +271,156 @@ a:hover {
     background-color: var(--card-bg);
 }
 
+/* =========================================
+   PERFIL DE JUGADOR (SINGLE-JUGADOR)
+   ========================================= */
+.player-profile-page .profile-header {
+    margin-bottom: 2rem;
+}
+
+.player-name-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent-blue);
+    letter-spacing: -1px;
+    margin-bottom: 0.25rem;
+}
+
+.player-subtitle {
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+/* Stats Cards */
+.stats-cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.primary-color {
+    color: var(--primary-color);
+}
+
+.text-success {
+    color: #10B981;
+}
+
+.text-danger {
+    color: #EF4444;
+}
+
+/* Tables */
+.theme-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    background-color: #F8FAFC;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.stat-highlight {
+    font-weight: 800;
+    color: var(--accent-blue);
+}
+
+.d-block {
+    display: block;
+}
+
+.small {
+    font-size: 0.8rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.badge-win {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-loss {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.badge-final {
+    background-color: #E2E8F0;
+    color: #475569;
+}
+
+.badge-pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
 /* RESPONSIVE */
 @media (max-width: 992px) {
     .main-layout {
