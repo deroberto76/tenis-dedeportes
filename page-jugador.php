@@ -59,7 +59,17 @@ if ($pdo) {
             FROM $nombre_tabla
             WHERE Tenista = :tenista AND estado = 'finalizado'
             GROUP BY Tipo
-            ORDER BY PJ DESC
+            ORDER BY 
+                CASE Tipo 
+                    WHEN 'Davis Cup' THEN 1
+                    WHEN 'Grand Slam' THEN 2
+                    WHEN 'ATP Masters 1000' THEN 3
+                    WHEN '500' THEN 4
+                    WHEN '250' THEN 5
+                    WHEN 'Challenger' THEN 6
+                    WHEN 'ITF World Tennis Tour' THEN 7
+                    ELSE 8 
+                END ASC, PJ DESC
         ");
         $stmtTorneos->execute([':tenista' => $tenista]);
         $stats_torneos = $stmtTorneos->fetchAll(PDO::FETCH_ASSOC);
@@ -196,7 +206,15 @@ if ($pdo) {
                                     <td><?php echo esc_html($partido['Ronda']); ?></td>
                                     <td class="fw-bold <?php echo $is_w ? 'primary-color' : ''; ?>"><?php echo esc_html($partido['Tenista']); ?></td>
                                     <td class="text-center"><?php echo $resultado_str . ' <br><small>(' . esc_html($partido['Scores']) . ')</small>'; ?></td>
-                                    <td class="<?php echo !$is_w ? 'fw-bold primary-color' : ''; ?>"><?php echo esc_html($partido['Oponente']); ?></td>
+                                    <td class="<?php echo !$is_w ? 'fw-bold primary-color' : ''; ?>">
+                                        <?php echo esc_html($partido['Oponente'] ?? ''); ?>
+                                        <?php 
+                                        $ranking_op = $partido['Ranking_Oponente'] ?? $partido['ranking_oponente'] ?? '';
+                                        if (!empty($ranking_op)) {
+                                            echo '<br><small class="text-muted">Rank: ' . esc_html($ranking_op) . '</small>';
+                                        }
+                                        ?>
+                                    </td>
                                     <td>
                                         <?php if(strtolower($partido['estado']) == 'finalizado'): ?>
                                             <span class="badge badge-final">FINAL</span>
