@@ -44,7 +44,6 @@ if ($pdo_result instanceof PDO) {
             WHERE estado = 'finalizado'
             GROUP BY Tenista
             ORDER BY Rendimiento DESC, PJ DESC
-            LIMIT 6
         ");
         $stmtRend->execute();
         $mejores_rendimientos = $stmtRend->fetchAll(PDO::FETCH_ASSOC);
@@ -73,6 +72,7 @@ function renderizar_tarjeta_partido($partido)
     $oponente = $partido['Oponente'];
     $resultado = $partido['Resultado']; // W o L
     $scores_str = $partido['Scores']; // e.g. "6-4, 6-2" o "6-1, 7-6(9)"
+    $pais_oponente = $partido['Pais'] ?? ''; // País del oponente extraído de la BD
 
     $tenista_ganador = ($resultado === 'W');
     $oponente_ganador = ($resultado === 'L');
@@ -110,8 +110,11 @@ function renderizar_tarjeta_partido($partido)
         <div class="match-players">
             <!-- Tenista Principal -->
             <div class="player-row">
-                <span
-                    class="player-name <?php echo $tenista_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($tenista); ?></span>
+                <div class="player-identity">
+                    <span
+                        class="player-name <?php echo $tenista_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($tenista); ?></span>
+                    <span class="player-country">CHI</span>
+                </div>
                 <div class="player-scores">
                     <?php if (empty($sets_tenista)): ?>
                         <span class="score">-</span>
@@ -125,8 +128,12 @@ function renderizar_tarjeta_partido($partido)
             </div>
             <!-- Oponente -->
             <div class="player-row">
-                <span
-                    class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($oponente); ?></span>
+                <div class="player-identity">
+                    <span class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($oponente); ?></span>
+                        <?php if (!empty($pais_oponente)): ?>
+                                <span class="player-country"><?php echo esc_html(strtoupper($pais_oponente)); ?></span>
+                    <?php endif; ?>
+                </div>
                 <div class="player-scores">
                     <?php if (empty($sets_oponente)): ?>
                         <span class="score">-</span>

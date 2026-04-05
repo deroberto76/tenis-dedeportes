@@ -77,6 +77,72 @@ a:hover {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.site-branding {
+    flex-shrink: 0;
+}
+
+.main-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.main-navigation a {
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.main-navigation a:hover {
+    color: var(--primary-color);
+}
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.hamburger-icon {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-dark);
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-dark);
+    left: 0;
+    transition: transform 0.2s;
+}
+
+.hamburger-icon::before {
+    top: -8px;
+}
+
+.hamburger-icon::after {
+    bottom: -8px;
+}
+
 .site-title a {
     color: var(--primary-color);
     font-weight: 800;
@@ -181,6 +247,23 @@ a:hover {
 
 .player-name {
     font-size: 0.95rem;
+}
+
+.player-identity {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.player-country {
+    font-size: 0.7rem;
+    color: #64748B;
+    background: #F1F5F9;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .player-scores {
@@ -447,6 +530,44 @@ a:hover {
 
     .sidebar-area {
         width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .main-navigation {
+        display: none;
+        width: 100%;
+        margin-top: 1.5rem;
+    }
+
+    .main-navigation.toggled {
+        display: block;
+    }
+
+    .main-navigation ul {
+        flex-direction: column;
+        gap: 0;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .main-navigation li {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .main-navigation li:last-child {
+        border-bottom: none;
+    }
+
+    .main-navigation a {
+        display: block;
+        padding: 1rem 1.5rem;
     }
 }
 
