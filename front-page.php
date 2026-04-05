@@ -30,7 +30,7 @@ if ($pdo_result instanceof PDO) {
 
         // Query: Todos los Partidos
         // Asumo todos los 'finalizado' recientes
-        $stmtTodos = $pdo->prepare("SELECT * FROM $nombre_tabla WHERE estado = 'finalizado' ORDER BY fecha DESC LIMIT 10");
+        $stmtTodos = $pdo->prepare("SELECT *, Pais FROM $nombre_tabla WHERE estado = 'finalizado' ORDER BY fecha DESC LIMIT 10");
         $stmtTodos->execute();
         $todos_partidos = $stmtTodos->fetchAll(PDO::FETCH_ASSOC);
 
@@ -68,11 +68,19 @@ function renderizar_tarjeta_partido($partido)
     }
 
     $torneo = $partido['Torneo'] ?? 'Torneo Desconocido';
-    $tenista = $partido['Tenista'];
-    $oponente = $partido['Oponente'];
-    $resultado = $partido['Resultado']; // W o L
-    $scores_str = $partido['Scores']; // e.g. "6-4, 6-2" o "6-1, 7-6(9)"
-    $pais_oponente = $partido['Pais'] ?? ''; // País del oponente extraído de la BD
+    $tenista = $partido['Tenista'] ?? $partido['tenista'] ?? '';
+    $oponente = $partido['Oponente'] ?? $partido['oponente'] ?? '';
+    $resultado = $partido['Resultado'] ?? $partido['resultado'] ?? ''; // W o L
+    $scores_str = $partido['Scores'] ?? $partido['scores'] ?? ''; // e.g. "6-4, 6-2" o "6-1, 7-6(9)"
+
+    // Extraer país del oponente de forma case-insensitive
+    $pais_oponente = '';
+    foreach ($partido as $k => $v) {
+        if (strtolower($k) === 'pais') {
+            $pais_oponente = trim($v);
+            break;
+        }
+    }
 
     $tenista_ganador = ($resultado === 'W');
     $oponente_ganador = ($resultado === 'L');
@@ -129,9 +137,10 @@ function renderizar_tarjeta_partido($partido)
             <!-- Oponente -->
             <div class="player-row">
                 <div class="player-identity">
-                    <span class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($oponente); ?></span>
-                        <?php if (!empty($pais_oponente)): ?>
-                                <span class="player-country"><?php echo esc_html(strtoupper($pais_oponente)); ?></span>
+                    <span
+                        class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($oponente); ?></span>
+                    <?php if (!empty($pais_oponente)): ?>
+                        <span class="player-country"><?php echo esc_html(strtoupper($pais_oponente)); ?></span>
                     <?php endif; ?>
                 </div>
                 <div class="player-scores">
