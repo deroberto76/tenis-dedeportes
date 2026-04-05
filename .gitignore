@@ -1,0 +1,12 @@
+# Ignorar el script de construcción y los empaquetados
+build.ps1
+tenis-dedeportes.zip
+*.zip
+
+# Archivos propios del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuración de entornos y editores
+.vscode/
+.idea/
