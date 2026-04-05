@@ -2,7 +2,8 @@
 // Función para encolar estilos y scripts
 function tenis_dedeportes_scripts()
 {
-    wp_enqueue_style('tenis-dedeportes-style', get_stylesheet_uri(), array(), '1.0.0');
+    $theme_version = filemtime(get_stylesheet_directory() . '/style.css');
+    wp_enqueue_style('tenis-dedeportes-style', get_stylesheet_uri(), array(), $theme_version);
     // wp_enqueue_script( 'tenis-dedeportes-script', get_template_directory_uri() . '/js/main.js', array('jquery'), '1.0.0', true );
 }
 add_action('wp_enqueue_scripts', 'tenis_dedeportes_scripts');

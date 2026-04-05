@@ -101,11 +101,11 @@ if ($pdo) {
         <section class="stats-cards-wrapper">
             <div class="stat-card">
                 <span class="stat-label">Rendimiento</span>
-                <span class="stat-value primary-color"><?php echo $stats_generales['Rendimiento']; ?>%</span>
+                <span class="stat-value text-purple"><?php echo $stats_generales['Rendimiento']; ?>%</span>
             </div>
             <div class="stat-card">
                 <span class="stat-label">Torneos Ganados</span>
-                <span class="stat-value text-success"><?php echo $stats_generales['TorneosGanados']; ?></span>
+                <span class="stat-value text-blue"><?php echo $stats_generales['TorneosGanados']; ?></span>
             </div>
             <div class="stat-card">
                 <span class="stat-label">Partidos Ganados</span>
