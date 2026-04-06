@@ -29,9 +29,17 @@ if ($pdo_result instanceof PDO) {
         $partidos_hoy = $stmtHoy->fetchAll(PDO::FETCH_ASSOC);
 
         // Query: Todos los Partidos
-        // Asumo todos los 'finalizado' recientes
-        $stmtTodos = $pdo->prepare("SELECT *, Pais FROM $nombre_tabla WHERE estado = 'finalizado' ORDER BY fecha DESC LIMIT 10");
-        $stmtTodos->execute();
+        // Asumo todos los 'finalizado' recientes, excluyendo los que ya se muestran en 'Partidos de Hoy'
+        $ids_hoy = array_column($partidos_hoy, 'id'); // Extraer IDs
+
+        if (!empty($ids_hoy)) {
+            $in_clause = implode(',', array_fill(0, count($ids_hoy), '?'));
+            $stmtTodos = $pdo->prepare("SELECT *, Pais FROM $nombre_tabla WHERE estado = 'finalizado' AND id NOT IN ($in_clause) ORDER BY fecha DESC LIMIT 10");
+            $stmtTodos->execute($ids_hoy);
+        } else {
+            $stmtTodos = $pdo->prepare("SELECT *, Pais FROM $nombre_tabla WHERE estado = 'finalizado' ORDER BY fecha DESC LIMIT 10");
+            $stmtTodos->execute();
+        }
         $todos_partidos = $stmtTodos->fetchAll(PDO::FETCH_ASSOC);
 
         // Query: Mejores Rendimientos
