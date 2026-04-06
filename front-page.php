@@ -30,11 +30,17 @@ if ($pdo_result instanceof PDO) {
 
         // Query: Todos los Partidos
         // Asumo todos los 'finalizado' recientes, excluyendo los que ya se muestran en 'Partidos de Hoy'
-        $ids_hoy = array_column($partidos_hoy, 'ID'); // Extraer IDs
+        $ids_hoy = [];
+        foreach ($partidos_hoy as $p) {
+            $id = $p['id'] ?? $p['ID'] ?? $p['Id'] ?? null;
+            if ($id !== null) {
+                $ids_hoy[] = $id;
+            }
+        }
 
         if (!empty($ids_hoy)) {
             $in_clause = implode(',', array_fill(0, count($ids_hoy), '?'));
-            $stmtTodos = $pdo->prepare("SELECT *, Pais FROM $nombre_tabla WHERE estado = 'finalizado' AND ID NOT IN ($in_clause) ORDER BY fecha DESC LIMIT 10");
+            $stmtTodos = $pdo->prepare("SELECT *, Pais FROM $nombre_tabla WHERE estado = 'finalizado' AND id NOT IN ($in_clause) ORDER BY fecha DESC LIMIT 10");
             $stmtTodos->execute($ids_hoy);
         } else {
             $stmtTodos = $pdo->prepare("SELECT *, Pais FROM $nombre_tabla WHERE estado = 'finalizado' ORDER BY fecha DESC LIMIT 10");
