@@ -4,7 +4,7 @@ Theme URI: https://tenis.dedeportes.cl/
 Author: Roberto Escobarg
 Author URI: https://dedeportes.cl/
 Description: Tema para estadísticas de tenistas chilenos. Diseño moderno y naranja.
-Version: 1.0.0
+Version: 1.11
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: tenis-dedeportes
@@ -149,9 +149,21 @@ a:hover {
     letter-spacing: -0.5px;
 }
 
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 1.5rem;
+    }
+}
+
 .site-description {
     color: var(--text-muted);
     font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .site-description {
+        font-size: 0.8rem;
+    }
 }
 
 .main-layout {
@@ -211,11 +223,20 @@ a:hover {
 }
 
 .match-info {
-    width: 140px;
+    width: 130px;
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--border-color);
     margin-right: 1.25rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 576px) {
+    .match-info {
+        width: 85px;
+        margin-right: 0.75rem;
+        padding-right: 0.5rem;
+    }
 }
 
 .match-time {
@@ -224,12 +245,25 @@ a:hover {
     font-size: 0.95rem;
 }
 
+@media (max-width: 576px) {
+    .match-time {
+        font-size: 0.85rem;
+    }
+}
+
 .match-tournament {
     color: var(--text-muted);
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-top: 2px;
+}
+
+@media (max-width: 576px) {
+    .match-tournament {
+        font-size: 0.65rem;
+        line-height: 1.2;
+    }
 }
 
 .match-players {
@@ -380,9 +414,21 @@ a:hover {
 /* Stats Cards */
 .stats-cards-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     margin-bottom: 3.5rem;
+}
+
+@media (max-width: 992px) {
+    .stats-cards-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-cards-wrapper {
+        grid-template-columns: 1fr;
+    }
 }
 
 .stat-card {
@@ -441,6 +487,12 @@ a:hover {
     overflow: hidden;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     padding: 0.5rem;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .data-table {
@@ -522,22 +574,7 @@ a:hover {
     color: #92400E;
 }
 
-/* STATS GLOBAL PAGE */
-.stats-cards-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-}
-
-.stat-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
+/* ELIMINADO DUPLICADO QUE CAUSABA ERROR DE LÍNEAS */
 
 .stat-label {
     display: block;
@@ -680,6 +717,20 @@ a:hover {
 
     .main-navigation.toggled {
         display: block;
+    }
+
+    .header-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .site-branding {
+        flex: 1;
+    }
+
+    .menu-toggle {
+        order: 2;
     }
 
     .main-navigation ul {

@@ -22,9 +22,8 @@ if ($pdo_result instanceof PDO) {
     $nombre_tabla = 'partidos';
 
     try {
-        // Query: Partidos de Hoy
-        // Según la imagen, los partidos tienen estado = 'por jugar' (o podría ser curdate)
-        $stmtHoy = $pdo->prepare("SELECT * FROM $nombre_tabla WHERE estado = 'por jugar' OR fecha = CURDATE() ORDER BY fecha ASC LIMIT 5");
+        // Query: Partidos de Hoy - Solo los del día actual
+        $stmtHoy = $pdo->prepare("SELECT * FROM $nombre_tabla WHERE fecha = CURDATE() ORDER BY fecha ASC");
         $stmtHoy->execute();
         $partidos_hoy = $stmtHoy->fetchAll(PDO::FETCH_ASSOC);
 
@@ -70,15 +69,22 @@ if ($pdo_result instanceof PDO) {
 }
 
 // Helper: Generador HTML de tarjetas de partido para no repetir código
-function renderizar_tarjeta_partido($partido)
+function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
 {
-    // Fecha formato "4 de abril" si es finalizado, o la fecha
+    // Fecha y Hora
     $timestamp = strtotime($partido['fecha']);
-    $fecha_format = wp_date('j \d\e F', $timestamp);
-    if ($partido['estado'] === 'por jugar') {
-        $hora_fecha = "Por jugar - " . $fecha_format;
+    $hora_str = $partido['hora'] ?? $partido['Hora'] ?? '';
+    // Limpiar segundos si vienen (e.g. 22:00:00 -> 22:00)
+    if (!empty($hora_str) && strlen($hora_str) > 5) {
+        $hora_str = substr($hora_str, 0, 5);
+    }
+
+    if ($forzar_fecha) {
+        $hora_fecha = wp_date('j \d\e F', $timestamp);
+    } elseif (strtolower($partido['estado']) === 'finalizado') {
+        $hora_fecha = "Final";
     } else {
-        $hora_fecha = $fecha_format;
+        $hora_fecha = !empty($hora_str) ? $hora_str : wp_date('H:i', $timestamp);
     }
 
     $torneo = $partido['Torneo'] ?? 'Torneo Desconocido';
@@ -193,7 +199,7 @@ function renderizar_tarjeta_partido($partido)
                     <?php
                     if (!empty($partidos_hoy)) {
                         foreach ($partidos_hoy as $partido) {
-                            renderizar_tarjeta_partido($partido);
+                            renderizar_tarjeta_partido($partido, false);
                         }
                     } else if (empty($error_bd)) {
                         echo '<p>No hay partidos programados para hoy.</p>';
@@ -209,7 +215,7 @@ function renderizar_tarjeta_partido($partido)
                     <?php
                     if (!empty($todos_partidos)) {
                         foreach ($todos_partidos as $partido) {
-                            renderizar_tarjeta_partido($partido);
+                            renderizar_tarjeta_partido($partido, true);
                         }
                     } else if (empty($error_bd)) {
                         echo '<p>No hay datos de partidos anteriores.</p>';

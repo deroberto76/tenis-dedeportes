@@ -204,14 +204,26 @@ if ($pdo) {
                                         <span class="text-muted small"><?php echo esc_html($partido['Tipo']); ?></span>
                                     </td>
                                     <td><?php echo esc_html($partido['Ronda']); ?></td>
-                                    <td class="fw-bold <?php echo $is_w ? 'primary-color' : ''; ?>"><?php echo esc_html($partido['Tenista']); ?></td>
+                                    <td class="fw-bold <?php echo $is_w ? 'primary-color' : ''; ?>">
+                                        <?php echo esc_html($partido['Tenista']); ?>
+                                        <?php 
+                                        $rank_tenista = $partido['Ranking_Tenista'] ?? $partido['ranking_tenista'] ?? '';
+                                        if (!empty($rank_tenista)) {
+                                            echo '<br><small class="text-muted">Rank: ' . esc_html($rank_tenista) . '</small>';
+                                        }
+                                        ?>
+                                    </td>
                                     <td class="text-center"><?php echo $resultado_str . ' <br><small>(' . esc_html($partido['Scores']) . ')</small>'; ?></td>
                                     <td class="<?php echo !$is_w ? 'fw-bold primary-color' : ''; ?>">
                                         <?php echo esc_html($partido['Oponente'] ?? ''); ?>
                                         <?php 
                                         $ranking_op = $partido['Ranking_Oponente'] ?? $partido['ranking_oponente'] ?? '';
-                                        if (!empty($ranking_op)) {
-                                            echo '<br><small class="text-muted">Rank: ' . esc_html($ranking_op) . '</small>';
+                                        $pais_op = $partido['Pais'] ?? $partido['pais'] ?? '';
+                                        if (!empty($ranking_op) || !empty($pais_op)) {
+                                            echo '<br><small class="text-muted">';
+                                            if (!empty($ranking_op)) echo 'Rank: ' . esc_html($ranking_op) . ' ';
+                                            if (!empty($pais_op)) echo '(' . esc_html(strtoupper($pais_op)) . ')';
+                                            echo '</small>';
                                         }
                                         ?>
                                     </td>
