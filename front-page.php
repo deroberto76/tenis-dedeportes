@@ -23,7 +23,7 @@ if ($pdo_result instanceof PDO) {
 
     try {
         // Query: Partidos de Hoy - Solo los del día actual
-        $stmtHoy = $pdo->prepare("SELECT * FROM $nombre_tabla WHERE fecha = CURDATE() ORDER BY fecha ASC");
+        $stmtHoy = $pdo->prepare("SELECT * FROM $nombre_tabla WHERE fecha = CURDATE() ORDER BY hora ASC");
         $stmtHoy->execute();
         $partidos_hoy = $stmtHoy->fetchAll(PDO::FETCH_ASSOC);
 
@@ -129,6 +129,13 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
         }
     }
 
+    <?php
+    // Enlazar tenistas si tienen página de perfil
+    $url_tenista = get_player_profile_url($tenista);
+    $url_oponente = get_player_profile_url($oponente);
+
+    $tenista_html = $url_tenista ? '<a href="' . esc_url($url_tenista) . '" class="player-link">' . esc_html($tenista) . '</a>' : esc_html($tenista);
+    $oponente_html = $url_oponente ? '<a href="' . esc_url($url_oponente) . '" class="player-link">' . esc_html($oponente) . '</a>' : esc_html($oponente);
     ?>
     <div class="match-card">
         <div class="match-info">
@@ -140,7 +147,7 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
             <div class="player-row">
                 <div class="player-identity">
                     <span
-                        class="player-name <?php echo $tenista_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($tenista); ?></span>
+                        class="player-name <?php echo $tenista_ganador ? 'fw-bold' : ''; ?>"><?php echo $tenista_html; ?></span>
                     <span class="player-country">CHI</span>
                 </div>
                 <div class="player-scores">
@@ -158,7 +165,7 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
             <div class="player-row">
                 <div class="player-identity">
                     <span
-                        class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>"><?php echo esc_html($oponente); ?></span>
+                        class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>"><?php echo $oponente_html; ?></span>
                     <?php if (!empty($pais_oponente)): ?>
                         <span class="player-country"><?php echo esc_html(strtoupper($pais_oponente)); ?></span>
                     <?php endif; ?>

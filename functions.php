@@ -37,4 +37,20 @@ function get_tenis_db_connection()
         return "Error PDO: " . $e->getMessage();
     }
 }
+
+/**
+ * Obtiene la URL del perfil de un jugador si existe la página.
+ */
+function get_player_profile_url($player_name)
+{
+    if (empty($player_name))
+        return null;
+    $slug = sanitize_title($player_name);
+    // get_page_by_path busca por el slug de la página
+    $page = get_page_by_path($slug);
+    if ($page) {
+        return get_permalink($page->ID);
+    }
+    return null;
+}
 ?>
