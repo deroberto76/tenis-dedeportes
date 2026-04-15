@@ -129,7 +129,6 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
         }
     }
 
-    <?php
     // Enlazar tenistas si tienen página de perfil
     $url_tenista = get_player_profile_url($tenista);
     $url_oponente = get_player_profile_url($oponente);
@@ -139,15 +138,20 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
     ?>
     <div class="match-card">
         <div class="match-info">
-            <span class="match-time"><?php echo esc_html($hora_fecha); ?></span>
-            <span class="match-tournament"><?php echo esc_html($torneo); ?></span>
+            <span class="match-time">
+                <?php echo esc_html($hora_fecha); ?>
+            </span>
+            <span class="match-tournament">
+                <?php echo esc_html($torneo); ?>
+            </span>
         </div>
         <div class="match-players">
             <!-- Tenista Principal -->
             <div class="player-row">
                 <div class="player-identity">
-                    <span
-                        class="player-name <?php echo $tenista_ganador ? 'fw-bold' : ''; ?>"><?php echo $tenista_html; ?></span>
+                    <span class="player-name <?php echo $tenista_ganador ? 'fw-bold' : ''; ?>">
+                        <?php echo $tenista_html; ?>
+                    </span>
                     <span class="player-country">CHI</span>
                 </div>
                 <div class="player-scores">
@@ -156,7 +160,9 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
                     <?php else: ?>
                         <?php foreach ($sets_tenista as $idx => $pts): ?>
                             <span
-                                class="score <?php echo ($tenista_ganador && $idx == count($sets_tenista) - 1) ? 'winner-score' : ''; ?>"><?php echo esc_html($pts); ?></span>
+                                class="score <?php echo ($tenista_ganador && $idx == count($sets_tenista) - 1) ? 'winner-score' : ''; ?>">
+                                <?php echo esc_html($pts); ?>
+                            </span>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
@@ -164,10 +170,13 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
             <!-- Oponente -->
             <div class="player-row">
                 <div class="player-identity">
-                    <span
-                        class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>"><?php echo $oponente_html; ?></span>
+                    <span class="player-name <?php echo $oponente_ganador ? 'fw-bold' : ''; ?>">
+                        <?php echo $oponente_html; ?>
+                    </span>
                     <?php if (!empty($pais_oponente)): ?>
-                        <span class="player-country"><?php echo esc_html(strtoupper($pais_oponente)); ?></span>
+                        <span class="player-country">
+                            <?php echo esc_html(strtoupper($pais_oponente)); ?>
+                        </span>
                     <?php endif; ?>
                 </div>
                 <div class="player-scores">
@@ -176,7 +185,9 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
                     <?php else: ?>
                         <?php foreach ($sets_oponente as $idx => $pts): ?>
                             <span
-                                class="score <?php echo ($oponente_ganador && $idx == count($sets_oponente) - 1) ? 'winner-score' : ''; ?>"><?php echo esc_html($pts); ?></span>
+                                class="score <?php echo ($oponente_ganador && $idx == count($sets_oponente) - 1) ? 'winner-score' : ''; ?>">
+                                <?php echo esc_html($pts); ?>
+                            </span>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
@@ -195,7 +206,8 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
 
             <?php if (!empty($error_bd)): ?>
                 <div style="background: #FEE2E2; color: #991B1B; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <strong>Falta configuración de datos:</strong> <?php echo esc_html($error_bd); ?>
+                    <strong>Falta configuración de datos:</strong>
+                    <?php echo esc_html($error_bd); ?>
                 </div>
             <?php endif; ?>
 
@@ -252,9 +264,14 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
                                 foreach ($mejores_rendimientos as $rend) {
                                     ?>
                                     <tr>
-                                        <td class="fw-bold"><?php echo esc_html($rend['Tenista'] ?? '-'); ?></td>
-                                        <td class="text-center"><?php echo esc_html($rend['PJ'] ?? '0'); ?></td>
-                                        <td class="text-center rend-stat"><?php echo esc_html($rend['Rendimiento'] ?? '0'); ?>%
+                                        <td class="fw-bold">
+                                            <?php echo esc_html($rend['Tenista'] ?? '-'); ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo esc_html($rend['PJ'] ?? '0'); ?>
+                                        </td>
+                                        <td class="text-center rend-stat">
+                                            <?php echo esc_html($rend['Rendimiento'] ?? '0'); ?>%
                                         </td>
                                     </tr>
                                     <?php
@@ -270,4 +287,5 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
         </aside>
 
     </div>
-</main><?php get_footer(); ?>
+</main>
+<?php get_footer(); ?>
