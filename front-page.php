@@ -130,8 +130,8 @@ function renderizar_tarjeta_partido($partido, $forzar_fecha = false)
     }
 
     // Enlazar tenistas si tienen página de perfil
-    $url_tenista = get_player_profile_url($tenista);
-    $url_oponente = get_player_profile_url($oponente);
+    $url_tenista = tenis_dedeportes_get_player_profile_url($tenista);
+    $url_oponente = tenis_dedeportes_get_player_profile_url($oponente);
 
     $tenista_html = $url_tenista ? '<a href="' . esc_url($url_tenista) . '" class="player-link">' . esc_html($tenista) . '</a>' : esc_html($tenista);
     $oponente_html = $url_oponente ? '<a href="' . esc_url($url_oponente) . '" class="player-link">' . esc_html($oponente) . '</a>' : esc_html($oponente);

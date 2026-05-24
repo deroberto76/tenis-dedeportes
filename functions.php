@@ -41,16 +41,36 @@ function get_tenis_db_connection()
 /**
  * Obtiene la URL del perfil de un jugador si existe la página.
  */
-function get_player_profile_url($player_name)
-{
-    if (empty($player_name))
+if (!function_exists('tenis_dedeportes_get_player_profile_url')) {
+    function tenis_dedeportes_get_player_profile_url($player_name)
+    {
+        if (empty($player_name))
+            return null;
+        $slug = sanitize_title($player_name);
+        // get_page_by_path busca por el slug de la página
+        $page = get_page_by_path($slug);
+        if ($page && isset($page->ID)) {
+            return get_permalink($page->ID);
+        }
         return null;
-    $slug = sanitize_title($player_name);
-    // get_page_by_path busca por el slug de la página
-    $page = get_page_by_path($slug);
-    if ($page) {
-        return get_permalink($page->ID);
     }
-    return null;
+}
+
+// Conexión a la base de datos de Roland Garros (PDO)
+function get_rolandgarros_db_connection()
+{
+    $host = 'localhost';
+    $dbname = 'pjdmenag_rolandgarros';
+    $user = 'pjdmenag_tenis'; // Usando el mismo usuario de tenis
+    $password = '.^NRsa!_OF^;'; // Misma contraseña
+
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    } catch (PDOException $e) {
+        error_log("Error de conexión a la BD de roland garros: " . $e->getMessage());
+        return "Error PDO: " . $e->getMessage();
+    }
 }
 ?>
